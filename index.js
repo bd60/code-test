@@ -177,7 +177,7 @@ function main() {
 	// test data
 	const testArr = ['a','b','b','b','b','b','d','h','h','h','p'];
 	// manipulate these to change length (N) and the pool of possible unique elements (M)
-	const N = 1000;
+	const N = 1000000;
 	const M = 26;
 	const randArr = Array.from({length: N}, () => Math.floor(Math.random() * M)).sort((a1, a2) => a1 - a2);
 	// run tests
