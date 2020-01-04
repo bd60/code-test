@@ -158,7 +158,7 @@ function testMethod(fn, arr) {
 
 function runTests(arr) {
 	resetTouches();
-	
+
 	console.log('linear');
 	testMethod(countDupesLinear, arr);
 	console.log('touches: ', linearTouches);
@@ -172,13 +172,18 @@ function runTests(arr) {
 	console.log('touches: ', mergeTouches);
 }
 
-// test data
-const testArr = ['a','b','b','b','b','b','d','h','h','h','p'];
-// manipulate these to change length (N) and the pool of possible unique elements (M)
-const N = 1000;
-const M = 26;
-const logCounts = true; // change this to not log the counts (if high M)
-const randArr = Array.from({length: N}, () => Math.floor(Math.random() * M)).sort((a1, a2) => a1 - a2);
-// run tests
-runTests(testArr);
-runTests(randArr);
+
+function main() {
+	// test data
+	const testArr = ['a','b','b','b','b','b','d','h','h','h','p'];
+	// manipulate these to change length (N) and the pool of possible unique elements (M)
+	const N = 1000;
+	const M = 26;
+	const logCounts = true; // change this to not log the counts (if high M)
+	const randArr = Array.from({length: N}, () => Math.floor(Math.random() * M)).sort((a1, a2) => a1 - a2);
+	// run tests
+	runTests(testArr);
+	runTests(randArr);
+}
+
+main();
