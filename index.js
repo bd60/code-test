@@ -41,9 +41,8 @@ function countDupesLinear(arr) {
 
 /*
 	Attempt 1: Uses binary search on every unique element.
-	This method assumes an ascending sort on elements and that
-	simple comparsions are possible between elements. Uses two functions, one to
-	find the last index of a given element and one to iterate the 
+	This method assumes elements are sorted and simple comparsions are possible between elements. 
+	Uses two functions, one to find the last index of a given element and one to iterate the 
 	unique elements and build the counts from the found last index
 	time complexity is roughly O(M + MlogN), but runs better since N reduces as we iterate over uniques.
 	But general explanation: the runtime of the binary search is logN and it needs to be run M times, 
@@ -51,22 +50,22 @@ function countDupesLinear(arr) {
 */
 
 // helper method that implements binary search to find last index of a target element
-// assumes descending sort and that the element is in the array
-function findLastIdx(arr, target, lIdx, hIdx) {
+// assumes that the element is in the array
+function findLastIdx(arr, target, lIdx, hIdx, isAsc) {
 	binaryTouches += 1;
 	// get middle index between high and low indices
 	const mIdx = Math.floor((lIdx + hIdx) / 2);
-	if (arr[mIdx] === target && (mIdx === arr.length - 1 || target < arr[mIdx + 1])) {
-	// if the middle item equals target AND either we're at the end OR the target is less than the next item
+	if (arr[mIdx] === target && (mIdx === arr.length - 1 || target !== arr[mIdx + 1])) {
+	// if the middle item equals target AND either we're at the end OR the target is not equal to the next item
 		// found last index, break recursion and return mid index
 		return mIdx;
-	} else if (target < arr[mIdx]) {
-	// else if the target is less than the middle index
+	} else if ((isAsc && target < arr[mIdx]) || target > arr[mIdx]) {
+	// else if ascending and the target is less than the middle item or not ascending and the target is greater than the middle item
 		// recursively search left half of the array
-		return findLastIdx(arr, target, lIdx, mIdx - 1);
+		return findLastIdx(arr, target, lIdx, mIdx - 1, isAsc);
 	} else {
 	// else recursively search the right half of the array
-		return findLastIdx(arr, target, mIdx + 1, hIdx);
+		return findLastIdx(arr, target, mIdx + 1, hIdx, isAsc);
 	}
 }
 
@@ -75,12 +74,14 @@ function countDupesBinary(arr) {
 	// declare loop counter / idx tracker and count storage object
 	let idx = 0;
 	const counts = {};
+	// check the sort
+	const isAsc = arr[0] < arr[arr.length - 1];
 	while (idx < arr.length) {
 		binaryTouches += 1;
 		// get the element
 		const el = arr[idx];
 		// get last index of element at current idx and add 1 to get next
-		const nextIdx = findLastIdx(arr, el, idx, arr.length) + 1;
+		const nextIdx = findLastIdx(arr, el, idx, arr.length, isAsc) + 1;
 		// set count equal to the next idx minus current idx
 		counts[el] = nextIdx - idx;
 		// jump to next unique element idx
@@ -189,11 +190,10 @@ function runTests(arr) {
 // test data
 const testArr = ['a','b','b','b','b','b','d','h','h','h','p'];
 // manipulate these to change length (N) and the pool of possible unique elements (M)
-const N = 1000000;
+const N = 10000000;
 const M = 26;
 const logCounts = true; // change this to not log the counts (if high M)
 const randArr = Array.from({length: N}, () => Math.floor(Math.random() * M)).sort((a1, a2) => a1 - a2);
-
 // run tests
 runTests(testArr);
 runTests(randArr);
