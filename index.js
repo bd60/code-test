@@ -19,10 +19,8 @@ function countDupesLinear(arr) {
 	// reduce array to object containing elements as keys and counts as values
 	return arr.reduce((counts, el) => {
 		linearTouches += 1;
-		// get current count or 0 if not set
-		const c = counts[el] || 0;
-		// set count to current + 1
-		counts[el] = c + 1;
+		// set count to current count (or 0 if not set) + 1
+		counts[el] = (counts[el] || 0) + 1;
 		return counts;
 	}, {});
 }
@@ -107,17 +105,13 @@ function countDupesBinary(arr) {
 // main method that counts duplicates by subdividing array till the first element matches the last
 // use mutative methods to reduce space complexity and optimize run time
 function _countDupesMerge(arr, lIdx, hIdx, counts) {
-	mergeTouches += 1
+	mergeTouches += 1;
 	// if the first element in division is the same as the last element, they're all the same, break recursion
 	if (arr[lIdx] === arr[hIdx]) {
 		// get the element (key)
 		const el = arr[lIdx];
-		// get current count or 0 if not set
-		const curC = counts[el] || 0;
-		// get the count
-		const c = hIdx - lIdx + 1;
-		// set count to current count plus count
-		counts[el] = curC + c;
+		// set count to current count (or 0 if not set) plus new count
+		counts[el] = (counts[el] || 0) + hIdx - lIdx + 1;
 	} else {
 		// get the mid idx
 		const mIdx = Math.floor((lIdx + hIdx) / 2);
@@ -190,7 +184,7 @@ function runTests(arr) {
 // test data
 const testArr = ['a','b','b','b','b','b','d','h','h','h','p'];
 // manipulate these to change length (N) and the pool of possible unique elements (M)
-const N = 10000000;
+const N = 1000;
 const M = 26;
 const logCounts = true; // change this to not log the counts (if high M)
 const randArr = Array.from({length: N}, () => Math.floor(Math.random() * M)).sort((a1, a2) => a1 - a2);
