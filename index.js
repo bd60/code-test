@@ -15,8 +15,8 @@ let mergeTouches = 0;
 	add 1 to the value at that key on each encounter
 */
 
+// reduce array to object containing elements as keys and counts as values
 function countDupesLinear(arr) {
-	// reduce array to object containing elements as keys and counts as values
 	return arr.reduce((counts, el) => {
 		linearTouches += 1;
 		// set count to current count (or 0 if not set) + 1
@@ -156,29 +156,20 @@ function testMethod(fn, arr) {
 	console.log('runtime: ', end - start);
 }
 
-function testLinear(arr) {
+function runTests(arr) {
+	resetTouches();
+	
 	console.log('linear');
 	testMethod(countDupesLinear, arr);
 	console.log('touches: ', linearTouches);
-}
 
-function testBinary(arr) {
 	console.log('binary');
 	testMethod(countDupesBinary, arr);
 	console.log('touches: ', binaryTouches);
-}
 
-function testMerge(arr) {
 	console.log('merge');
 	testMethod(countDupesMerge, arr);
 	console.log('touches: ', mergeTouches);
-}
-
-function runTests(arr) {
-	testLinear(arr);
-	testBinary(arr);
-	testMerge(arr);
-	resetTouches();
 }
 
 // test data
